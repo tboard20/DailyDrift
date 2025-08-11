@@ -1,9 +1,12 @@
 from django.shortcuts import render
+from .models import Article, Category
 
 # Create your views here.
 
 def Home (request):
-    return render(request, 'home.html')
+    stories = Article.objects.filter(is_published=True).order_by('-pub_date')
+    categories = Category.objects.all()
+    return render(request, 'home.html', {'stories': stories, 'categories': categories})
 
 
 def article_details (request):
