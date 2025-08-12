@@ -6,22 +6,71 @@
 
 
 <h1>Latest News</h1>
-<div>
+
+
+{% comment %} <div class="news-list">
+
+
   {% for story in stories  %}
+
+  <div class="news-item">
   {% if story.image %}
-  {{story.title}}
+  <img src="{{ story.image.url }}" alt="{{ story.title }}">
   
   {% endif %}
   
   
- <p> {{story.title}}</p>
-  <p>{{story.content  }}</p>
-  <p>{{story.pub_date | date: "d F, Y"}} | {{story.category}}</p>
+  <h1>{{story.title}}</h1>
+  <p>{{story.content|truncatewords:"30" }}</p>
+  <p><small>{{story.pub_date|date:"d F, Y"}} | {{story.category}}</small></p>
   
   <a href="">Read</a>
-  
+  </div>
+
+
+  {% empty %}
+  <p>No news availabe at the moment. </p>
   
   {% endfor %}
+</div> {% endcomment %}
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-3">
+      {% for story in sport_news %}
+      <section class="grid-items">
+        <p><small>
+          {{ story.pub_date|date:"d F, Y" }}
+          
+
+        </small></p>
+    <h2>{{story.title}}</h2>
+    {% endfor %}
+
+
+
+
+      </section>
+
+    </div>
+    
+    <div class="col-6">
+      
+    
+  </div>
+    <div class="col3">
+      
+    
+  </div>
+  <div class="col3">
+      
+    
+  </div>
+  </div>
 </div>
 
 {% endblock %}
