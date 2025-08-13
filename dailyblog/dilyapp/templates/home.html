@@ -48,7 +48,8 @@
           
 
         </small></p>
-    <h2>{{story.title}}</h2>
+    <h4>{{story.title|truncatewords:"9"}}</h4>
+    <hr>
     {% endfor %}
 
 
@@ -58,19 +59,82 @@
 
     </div>
     
-    <div class="col-6">
+<div class="col-6">
+    {% for story in banner %}
+    {% if story.image %}
+     <img class="w-100" src="{{ story.image.url }}" alt="{{ story.title }}">      
+    {% endif %}      
+    
+    <div class="p-3 bg-secondary-subtle"><h2>{{story.title|truncatewords:"9"}}</h2></div>
+    {% endfor %}
+    
+  </div>
+    <div class="col-3">
+      {% for story in all_news %}
+
+      <div class="d-flex">
+      
+      <section style="flex:2">
+    <h4>{{story.title|truncatewords:"5"}}</h4>
+    <p><small>{{story.category}}</small></p>
+      </section> 
+
+      <div style="flex:1">
+      {% if story.image %}
+       <img class="w-100" src="{{ story.image.url }}" alt="{{ story.title }}">      
+      {% endif %}
+         
+      </div> 
+      
+    </div>
+    <hr> 
+    {% endfor %}
+
       
     
   </div>
-    <div class="col3">
-      
-    
+ 
   </div>
-  <div class="col3">
-      
-    
+</div>
+
+
+
+
+
+<div id="carouselExampleCaptions" class="carousel slide">
+  <div class="carousel-indicators">
+    {% for story in slider_news %}
+      <button type="button" 
+              data-bs-target="#carouselExampleCaptions" 
+              data-bs-slide-to="{{ forloop.counter0 }}" 
+              class="{% if forloop.first %}active{% endif %}" 
+              aria-current="{% if forloop.first %}true{% endif %}" 
+              aria-label="Slide {{ forloop.counter }}">
+      </button>
+    {% endfor %}
   </div>
+
+  <div class="carousel-inner">
+    {% for story in slider_news %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <img src="{{ story.image.url }}" class="d-block w-100" alt="{{ story.title }}">
+        <div style="position: absolute;"></div>
+        <div class="carousel-caption d-none d-md-block">
+          <h5>{{ story.title|truncatewords:5 }}</h5>
+          <p>{{ story.content|truncatewords:30 }}</p>
+        </div>
+      </div>
+    {% endfor %}
   </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
 </div>
 
 {% endblock %}
