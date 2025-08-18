@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Article, Category
 
 # Create your views here.
@@ -16,8 +16,13 @@ def Home (request):
     return render(request, 'home.html', {'stories': stories, 'categories': categories, 'sport_news': sport_news, 'banner':banner, 'all_news':all_news, 'slider_news': slider_news, 'carousel_news':carousel_news, 'grid_news':grid_news, 'grid':grid})
 
 
-def article_details (request):
-    return render(request, 'article_details.html')
+def article_details (request, id):
+    article = get_object_or_404(Article, id=id)
+    categories = Category.objects.all()
+    return render(request, 'article_details.html',{'article':article, 'categories':categories})
 
 def category (request):
     return render(request, 'category.html')
+
+# def base (request):
+#     return render(request, 'base.html')

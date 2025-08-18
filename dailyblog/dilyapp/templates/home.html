@@ -48,7 +48,7 @@
           
 
         </small></p>
-    <h4>{{story.title|truncatewords:"9"}}</h4>
+    <a href="{% url 'article' story.id %}"><h4>{{story.title|truncatewords:"9"}}</h4></a>
     <hr>
     {% endfor %}
 

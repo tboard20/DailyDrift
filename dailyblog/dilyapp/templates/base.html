@@ -58,6 +58,14 @@
     </header>
 {%block content  %}
 {% endblock  %}
+{% comment %} <div class="container">
+  <div class="grid">
+  {% for story in article %}
+  <h5>{{story.category}}</h5>
+  {% endfor %}
+</div>
+</div> {% endcomment %}
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
 </body>
