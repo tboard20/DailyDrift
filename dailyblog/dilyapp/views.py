@@ -16,13 +16,17 @@ def Home (request):
     return render(request, 'home.html', {'stories': stories, 'categories': categories, 'sport_news': sport_news, 'banner':banner, 'all_news':all_news, 'slider_news': slider_news, 'carousel_news':carousel_news, 'grid_news':grid_news, 'grid':grid})
 
 
-def article_details (request, id):
-    article = get_object_or_404(Article, id=id)
+def article_details (request, slug):
+    article = get_object_or_404(Article, slug=slug, is_published=True )
     categories = Category.objects.all()
     return render(request, 'article_details.html',{'article':article, 'categories':categories})
 
-def category (request):
-    return render(request, 'category.html')
+def category (request, slug):
+    category = get_object_or_404(Category, slug=slug)
+    articles = Article.objects.filter(category=category).order_by('-pub_date')
+    categories = Category.objects.all()
+    return render(request, 'category.html', {'category':category, 'articles':articles, 'categories':categories})
 
 # def base (request):
-#     return render(request, 'base.html')
+#     article = Article.objects.filter(is_published=True).order_by('-pub_date')
+#     return render(request, 'base.html',{'article':article})

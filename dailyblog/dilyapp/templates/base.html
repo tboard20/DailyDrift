@@ -57,14 +57,32 @@
 
     </header>
 {%block content  %}
+
+
 {% endblock  %}
-{% comment %} <div class="container">
-  <div class="grid">
-  {% for story in article %}
-  <h5>{{story.category}}</h5>
-  {% endfor %}
+
+
+<div class="container-fluid bg-black text-light p-5">
+  <div class="row">
+    
+    <div class="col-8">
+  {% for category in categories %}
+      <a href="{% url 'category' category.slug%}">{{ category.name }}</a>
+    {% endfor %}
+
 </div>
-</div> {% endcomment %}
+
+<div class="col-4 ">
+  <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+        <button class="btn btn-outline-primary" type="submit">Search</button>
+      </form>
+
+</div>
+
+
+</div>
+</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>

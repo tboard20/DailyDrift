@@ -3,6 +3,10 @@ from.models import Category, Article
 
 # Register your models here.
 
-admin.site.register(Category)
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name',)
 
-admin.site.register(Article)
+@admin.register(Article)
+class ArticleAdmin(admin.ModelAdmin):
+    list_display = ('title','category','author','pub_date')
