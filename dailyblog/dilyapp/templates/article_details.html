@@ -20,11 +20,20 @@
 <p>{{ article.content|linebreaks }}</p>
 
 
+
+
+<h3>Add a Comment</h3>
+<form method="post" action="{% url 'post_comment' article.slug %}" class="mb-4">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    <button type="submit" class="btn btn-primary">Submit Comment</button>
+</form>
+
 </div>
 
 <div class="col-4" >
 
-    <div style="margin: 20%; margin-top: 48%;">
+    <div style="margin: 50%; margin-top: 32%;">
         <img src="{% static "image/gif.gif" %}"  style="width: 180px;" alt="" >
       </div>
       
@@ -33,4 +42,6 @@
 
 </div>
 </div>
+
+
 {% endblock %}
