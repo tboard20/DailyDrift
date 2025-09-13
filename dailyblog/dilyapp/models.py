@@ -34,10 +34,12 @@ class Article(models.Model):
 
 class Comment(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments')
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     content = models.TextField()
     pub_date = models.DateTimeField(auto_now_add=True)
+    is_approved = models.BooleanField(default=False)
 
 
-    def _str_(self):
-        return f"Comment by {self.author|default:'Anonymous'} on {self.article}"
+    def __str__(self):
+        author_name = self.author.username if self.author else "Anonymous"
+        return f"Comment by {author_name} on {self.article}"

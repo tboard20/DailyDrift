@@ -44,7 +44,7 @@
       {% for story in sport_news %}
       <section class="grid-items">
         <p><small>
-          {{ story.pub_date|date:"d F, Y" }}
+          {{ story.pub_date|timesince }}ago
           
 
         </small></p>
