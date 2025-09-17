@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,8 +40,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'dilyapp'
+    'dilyapp',
+    'cloudinary',
+    'cloudinary_storage',
 ]
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'diyx7tqzg',
+    'API_KEY': '489633839126258',
+    'API_SECRET': 'tFj4VUtLXZ_mwj7LN6t15f1Elf0',
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

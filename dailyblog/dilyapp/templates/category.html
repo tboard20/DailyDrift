@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+{% block  content %}
+<div class="container">
+    <div class="row">
+      <div class="col-8"> 
+{% for story in articles %}
+    <article>
+        {% if story.image %}
+<a href="{% url 'article_details' story.slug %}">
+    <img class="w-100" src="{{story.image.url}}" alt="{{ story.title }}">
+</a>
+        {% endif %}
+      <h3>
+        <a href="{% url 'article_details' story.slug %}">
+
+          {{ story.title }}
+        </a>
+      </h3>
+      <p>{{ story.excerpt|truncatewords:25 }}</p>
+      <small>Published: {{ story.pub_date|timesince }}</small>
+    </article>
+    <hr>
+  {% empty %}
+    <p>No articles in this category yet.</p>
+  {% endfor %}
+</div>
+
+  
+
+                <div class="col-4">
+            <div id="calendar">
+            </div>
+ 
+</div>
+</div>
+</div>
+ {% endblock %}
