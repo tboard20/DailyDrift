@@ -1,41 +1,43 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block content %}
+<div class="container my-4">
+  <div class="row">
+    
+    <!-- Main Articles -->
+    <div class="col-12 col-lg-8 mb-4">
+      {% for story in articles %}
+        <article class="mb-4">
+          {% if story.image %}
+            <a href="{% url 'article_details' story.slug %}">
+              <img class="img-fluid rounded mb-2" src="{{ story.image.url }}" alt="{{ story.title }}">
+            </a>
+          {% endif %}
 
+          <h3 class="h5">
+            <a href="{% url 'article_details' story.slug %}" class="text-decoration-none text-dark">
+              {{ story.title }}
+            </a>
+          </h3>
 
-{% block  content %}
-<div class="container">
-    <div class="row">
-      <div class="col-8"> 
-{% for story in articles %}
-    <article>
-        {% if story.image %}
-<a href="{% url 'article_details' story.slug %}">
-    <img class="w-100" src="{{story.image.url}}" alt="{{ story.title }}">
-</a>
-        {% endif %}
-      <h3>
-        <a href="{% url 'article_details' story.slug %}">
+          <p>{{ story.excerpt|truncatewords:25 }}</p>
+          <small class="text-muted">Published: {{ story.pub_date|timesince }} ago</small>
+        </article>
+        <hr>
+      {% empty %}
+        <p>No articles in this category yet.</p>
+      {% endfor %}
+    </div>
 
-          {{ story.title }}
-        </a>
-      </h3>
-      <p>{{ story.excerpt|truncatewords:25 }}</p>
-      <small>Published: {{ story.pub_date|timesince }}</small>
-    </article>
-    <hr>
-  {% empty %}
-    <p>No articles in this category yet.</p>
-  {% endfor %}
+    <!-- Sidebar -->
+    <div class="col-12 col-lg-4">
+      <div class="p-3 border rounded bg-light mb-4">
+        <h5 class="mb-3">Calendar</h5>
+        <div id="calendar"></div>
+      </div>
+    </div>
+
+  </div>
 </div>
-
-  
-
-                <div class="col-4">
-            <div id="calendar">
-            </div>
- 
-</div>
-</div>
-</div>
- {% endblock %}
+{% endblock %}

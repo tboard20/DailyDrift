@@ -1,101 +1,80 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block content %}
+<div class="container my-4">
+  <div class="row">
 
-{%  block content  %}
+    <!-- Main Article Section -->
+    <div class="col-12 col-lg-8 mb-4">
 
-<div class="container">
-    <div class="row">
-        <div class="col-8">
+      <h1 class="mb-2">{{ article.title }}</h1>
+      <p class="text-muted">{{ article.pub_date }}</p>
 
-<h1>{{ article.title }}</h1>
-<p>{{ article.pub_date }}</p>
+      {% if article.image %}
+      <img src="{{ article.image.url }}" alt="{{ article.title }}" class="img-fluid rounded mb-3">
+      {% endif %}
 
-{% if article.image %}
-<img src="{{ article.image.url }}" alt="{{ article.title }}" style="width: 90%;">
-{% endif %}
+      <h5 class="text-secondary">By {{ article.author }}</h5>
+      <p>{{ article.content|linebreaks }}</p>
+      <hr>
 
-
-<h3> By {{ article.author }}</h3>
-<p>{{ article.content|linebreaks }}</p>
-
-<hr>
-
-
-<h3>Comments</h3>
-
-<div>
-    {% if comments %}
-    {% for comment in comments %}
-    
-    <section>
-        <p><strong>{{ comment.author.username|default:"Guest" }}</strong> said:<br>
-        <p>{{ comment.content }}<br>
-        <small class="text-danger"><em>{{ comment.pub_date|timesince }} ago</em></small>
-
-        {% if not comment.is_approved %}
-        <p><em>(Awaiting moderation)</em></p>
-        
+      <!-- Comments -->
+      <h3 class="mt-4">Comments</h3>
+      <div class="mb-3">
+        {% if comments %}
+          {% for comment in comments %}
+          <section class="mb-3 p-2 border rounded bg-light">
+            <p><strong>{{ comment.author.username|default:"Guest" }}</strong> said:</p>
+            <p>{{ comment.content }}</p>
+            <small class="text-danger"><em>{{ comment.pub_date|timesince }} ago</em></small>
+            {% if not comment.is_approved %}
+            <p class="text-muted"><em>(Awaiting moderation)</em></p>
+            {% endif %}
+          </section>
+          {% endfor %}
+        {% else %}
+          <p>No comment yet. Be the first to comment!</p>
         {% endif %}
-
-
-
-    </section>
-    
-    {% endfor %}
-    
-    {% else %}
-    <p>No comment yet. Be the first to comment!
-
-
-
-
-    {% endif %}
-</div>
-<hr></hr>
-
-<h3>Add a Comment</h3>
-<form method="post" action="{% url 'post_comment' article.slug %}" class="mb-4">
-    {% csrf_token %}
-    {{ comment_form.as_p }}
-    <button type="submit" class="btn btn-primary">Submit Comment</button>
-</form>
-
-</div>
-
-<div class="col-4" >
-
-    <div style="margin: 35%; margin-top: 30%;">
-        <img src="{% static "image/gif.gif" %}"  style="width: 100p%;" alt="" >
       </div>
-      <div id="calendar"></div>
 
+      <hr>
 
-
-    <div>
-      {% for story in related_stories %}
-      <section class="grid-items">
-        <p><small>
-          {{ story.pub_date|timesince }}ago
-          
-
-        </small></p>
-    <a href="{% url 'article_details' story.slug %}"><h4>{{story.title|truncatewords:"9"}}</h4></a>
-    <hr>
-  </section>
-    {% endfor %}
+      <!-- Add Comment Form -->
+      <h3>Add a Comment</h3>
+      <form method="post" action="{% url 'post_comment' article.slug %}" class="mb-4">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit Comment</button>
+      </form>
     </div>
-    
 
+    <!-- Sidebar -->
+    <div class="col-12 col-lg-4">
 
-      
+      <!-- Ad / Gif -->
+      <div class="text-center mb-4">
+        <img src="{% static 'image/gif.gif' %}" class="img-fluid" alt="Advertisement">
+      </div>
 
-      
-      
+      <!-- Calendar -->
+      <div id="calendar" class="mb-4"></div>
+
+      <!-- Related Stories -->
+      <div>
+        <h4 class="mb-3">Related Stories</h4>
+        {% for story in related_stories %}
+        <section class="mb-3">
+          <p><small class="text-muted">{{ story.pub_date|timesince }} ago</small></p>
+          <a href="{% url 'article_details' story.slug %}" class="text-decoration-none">
+            <h6>{{ story.title|truncatewords:"9" }}</h6>
+          </a>
+          <hr>
+        </section>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
 </div>
-
-</div>
-</div>
-
-
 {% endblock %}

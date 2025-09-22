@@ -1,122 +1,78 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block content %}
+<div class="container my-4">
+  <h1 class="mb-4">Latest News</h1>
 
-{%  block  content  %}
-
-
-<h1>Latest News</h1>
-
-
-{% comment %} <div class="news-list">
-
-
-  {% for story in stories  %}
-
-  <div class="news-item">
-  {% if story.image %}
-  <img src="{{ story.image.url }}" alt="{{ story.title }}">
-  
-  {% endif %}
-  
-  
-  <h1>{{story.title}}</h1>
-  <p>{{story.content|truncatewords:"30" }}</p>
-  <p><small>{{story.pub_date|date:"d F, Y"}} | {{story.category}}</small></p>
-  
-  <a href="">Read</a>
-  </div>
-
-
-  {% empty %}
-  <p>No news availabe at the moment. </p>
-  
-  {% endfor %}
-</div> {% endcomment %}
-
-
-
-
-
-<div class="container">
-  <div class="row">
-    <div class="col-3">
+  <!-- Top Section -->
+  <div class="row g-4">
+    <!-- Left Column (Sport News) -->
+    <div class="col-12 col-md-4 col-lg-3">
       {% for story in sport_news %}
-      <section class="grid-items">
-        <p><small>
-          {{ story.pub_date|timesince }}ago
-          
-
-        </small></p>
-    <a href="{% url 'article_details' story.slug %}"><h4>{{story.title|truncatewords:"9"}}</h4></a>
-    <hr>
-  </section>
-
-    {% endfor %}
-
-
-
-
-      
+      <section class="mb-3">
+        <p><small class="text-muted">{{ story.pub_date|timesince }} ago</small></p>
+        <a href="{% url 'article_details' story.slug %}">
+          <h5 class="h6">{{ story.title|truncatewords:"9" }}</h5>
+        </a>
+        <hr>
+      </section>
+      {% endfor %}
     </div>
-    
-<div class="col-6">
-    {% for story in banner %}
-    {% if story.image %}
-     <img class="w-100" src="{{ story.image.url }}" alt="{{ story.title }}">      
-    {% endif %}      
-    
-    <div class="p-3 bg-secondary-subtle"><a href="{% url 'article_details' story.slug %}"><h2>{{story.title|truncatewords:"9"}}</h2>
-    </a></div>
-    {% endfor %}
-    
-  </div>
-    <div class="col-3">
+
+    <!-- Center Column (Banner) -->
+    <div class="col-12 col-md-8 col-lg-6">
+      {% for story in banner %}
+        {% if story.image %}
+          <img class="img-fluid rounded mb-2" src="{{ story.image.url }}" alt="{{ story.title }}">
+        {% endif %}
+        <div class="p-3 bg-secondary-subtle">
+          <a href="{% url 'article_details' story.slug %}">
+            <h2 class="h5">{{ story.title|truncatewords:"9" }}</h2>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Right Column (All News) -->
+    <div class="col-12 col-lg-3">
       {% for story in all_news %}
-
-      <div class="d-flex">
-      
-      <section style="flex:2">
-    <a href="{% url 'article_details' story.slug %}"><h4>{{story.title|truncatewords:"5"}}</h4></a>
-    <p><small>{{story.category}}</small></p>
-      </section> 
-
-      <div style="flex:1">
-      {% if story.image %}
-       <img class="w-100" src="{{ story.image.url }}" alt="{{ story.title }}">      
-      {% endif %}
-         
-      </div> 
-      
+      <div class="d-flex gap-2 mb-3">
+        <div class="flex-shrink-0" style="width: 80px;">
+          {% if story.image %}
+            <img class="img-fluid rounded" src="{{ story.image.url }}" alt="{{ story.title }}">
+          {% endif %}
+        </div>
+        <section class="flex-grow-1">
+          <a href="{% url 'article_details' story.slug %}">
+            <h6 class="mb-1">{{ story.title|truncatewords:"5" }}</h6>
+          </a>
+          <p class="mb-0"><small class="text-muted">{{ story.category }}</small></p>
+        </section>
+      </div>
+      <hr>
+      {% endfor %}
     </div>
-    <hr> 
-    {% endfor %}
-
-      
-    
   </div>
-  
-  </div>
-  
- 
 </div>
 
-
-<div id="gridCarousel" class="carousel slide mx-auto" style="width: 90%;" data-bs-ride="carousel" data-bs-interval="4000">
+<!-- Grid Carousel -->
+<div id="gridCarousel" class="carousel slide mx-auto my-5" style="max-width: 95%;" data-bs-ride="carousel" data-bs-interval="4000">
   <div class="carousel-inner">
-
     {% for story in carousel_news %}
       {% if forloop.counter0|divisibleby:4 %}
         <div class="carousel-item {% if forloop.first %}active{% endif %}">
-          <div class="row">
+          <div class="row g-3">
       {% endif %}
 
-            <div class="col-md-3">
+            <div class="col-12 col-sm-6 col-md-3">
               <div class="card h-100">
-                <img src="{{ story.image.url }}" style="height:150px; object-fit:cover; object-position: top;" class="card-img-top" alt="{{ story.title }}">
+                <img src="{{ story.image.url }}" class="card-img-top" style="height:150px; object-fit:cover;" alt="{{ story.title }}">
                 <div class="card-body">
-                  <a href="{% url 'article_details' story.slug %}"><h5 class="card-title">{{ story.title|truncatewords:5 }}</h5></a>
-                  <p class="card-text">{{ story.content|truncatewords:10 }}</p>
+                  <a href="{% url 'article_details' story.slug %}">
+                    <h6 class="card-title">{{ story.title|truncatewords:5 }}</h6>
+                  </a>
+                  <p class="card-text small">{{ story.content|truncatewords:10 }}</p>
                 </div>
               </div>
             </div>
@@ -126,123 +82,99 @@
         </div>
       {% endif %}
     {% endfor %}
-
   </div>
 
   <button class="carousel-control-prev" type="button" data-bs-target="#gridCarousel" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="carousel-control-prev-icon"></span>
     <span class="visually-hidden">Previous</span>
   </button>
   <button class="carousel-control-next" type="button" data-bs-target="#gridCarousel" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="carousel-control-next-icon"></span>
     <span class="visually-hidden">Next</span>
   </button>
 </div>
 
-
+<!-- Second Section -->
 <div class="container my-5">
-  
- <div class="row">
-    <div class="col-6">
-  
-   <div id="carouselExampleCaptions" class="carousel slide">
-    <div class="carousel-indicators">
-      {% for story in slider_news %}
-        <button type="button" 
-                data-bs-target="#carouselExampleCaptions" 
-                data-bs-slide-to="{{ forloop.counter0 }}" 
-                class="{% if forloop.first %}active{% endif %}" 
-                aria-current="{% if forloop.first %}true{% endif %}" 
-                aria-label="Slide {{ forloop.counter }}">
-        </button>
-      {% endfor %}
-    </div>
-  
-    <div class="carousel-inner">
-      {% for story in slider_news %}
-        <div class="carousel-item {% if forloop.first %}active{% endif %}">
-          <img src="{{ story.image.url }}" style="height: 150%; object-fit:cover; object-position: top;" class="d-block w-100" alt="{{ story.title }}">
-          <div style="position: absolute; width: 100%; height: 100%; top: 0; background-color: #00000050"></div>
-          <div class="carousel-caption d-none d-md-block">
-            <a href="{% url 'article_details' story.slug %}"><h5>{{ story.title|truncatewords:5 }}</h5></a>
-            <p>{{ story.content|truncatewords:30 }}</p>
-          </div>
+  <div class="row g-4">
+    <!-- Left Column (Slider + Grid News) -->
+    <div class="col-12 col-lg-6">
+      <!-- Carousel -->
+      <div id="carouselExampleCaptions" class="carousel slide mb-4">
+        <div class="carousel-indicators">
+          {% for story in slider_news %}
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}" aria-label="Slide {{ forloop.counter }}"></button>
+          {% endfor %}
         </div>
-      {% endfor %}
-    </div>
-  
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
-  
-  
-  
-  <div class="row mt-5">
-     {% for story in grid_news %}
-    <div class="col-4">
-      <a href="{% url 'article_details' story.slug %}"><h6>
-        {% if story.image %}
-       <img style="width: 100px; float: left; margin: 0 10px 10px 0" src="{{ story.image.url }}" alt="{{ story.title }}">      
-      {% endif %}
-        {{ story.title }} {{story.category}}</h6></a>
-  
-      
-    </div>
-    {% endfor %}
-  
-  </div>
-  
-  
-    </div>
-  
-     <div class="col-3">
-       {% for story in grid %}
-  
-        <div class="d-flex gap-2">
-  
-         <div style="flex:1">
-        {% if story.image %}
-         <img class="w-100" src="{{ story.image.url }}" alt="{{ story.title }}">      
-        {% endif %}
-           
-        </div> 
-  
-        <section style="flex:2">
-      <a href="{% url 'article_details' story.slug %}"><h6>{{story.title|truncatewords:"5"}}</h6></a>
-      <p><small>{{story.category}}</small></p>
-        </section> 
-  
-       
-        
+        <div class="carousel-inner">
+          {% for story in slider_news %}
+          <div class="carousel-item {% if forloop.first %}active{% endif %}">
+            <img src="{{ story.image.url }}" class="d-block w-100" style="max-height:400px; object-fit:cover;" alt="{{ story.title }}">
+            <div class="carousel-caption d-none d-md-block">
+              <a href="{% url 'article_details' story.slug %}" class="text-white">
+                <h5>{{ story.title|truncatewords:5 }}</h5>
+              </a>
+              <p>{{ story.content|truncatewords:30 }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
       </div>
-      <hr> 
-      {% endfor %}
-      
-  
-    </div>
-  
-     <div class="col-3 bg-body-secondary pt-2" style="height: 50%; width: 21%;">
-      <div>
-        <img src="{% static "image/gif.gif" %}"  style="width: 180px;" alt="" >
-      </div>
-      <div>
-        <iframe class="mt-4" width="180px" height="215px" src="https://www.youtube.com/embed/6TQ-PoFoTCo?si=T3SzG5APbAAJVxxC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-      </div>
-  
-    </div>
- </div>
 
+      <!-- Grid News -->
+      <div class="row g-3">
+        {% for story in grid_news %}
+        <div class="col-12 col-md-6">
+          <a href="{% url 'article_details' story.slug %}" class="d-flex align-items-start text-decoration-none text-dark">
+            {% if story.image %}
+            <img src="{{ story.image.url }}" class="img-fluid me-2 rounded" style="width: 80px; height: 60px; object-fit:cover;" alt="{{ story.title }}">
+            {% endif %}
+            <div>
+              <h6 class="mb-1">{{ story.title }}</h6>
+              <small class="text-muted">{{ story.category }}</small>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Middle Column -->
+    <div class="col-12 col-md-6 col-lg-3">
+      {% for story in grid %}
+      <div class="d-flex mb-3">
+        <div class="flex-shrink-0 me-2" style="width:80px;">
+          {% if story.image %}
+          <img class="img-fluid rounded" src="{{ story.image.url }}" alt="{{ story.title }}">
+          {% endif %}
+        </div>
+        <section>
+          <a href="{% url 'article_details' story.slug %}">
+            <h6 class="mb-1">{{ story.title|truncatewords:"5" }}</h6>
+          </a>
+          <small class="text-muted">{{ story.category }}</small>
+        </section>
+      </div>
+      <hr>
+      {% endfor %}
+    </div>
+
+    <!-- Right Column (Ad + Video) -->
+    <div class="col-12 col-lg-3">
+      <div class="mb-3 text-center">
+        <img src="{% static 'image/gif.gif' %}" class="img-fluid rounded" alt="Ad">
+      </div>
+      <div class="ratio ratio-16x9">
+        <iframe src="https://www.youtube.com/embed/6TQ-PoFoTCo?si=T3SzG5APbAAJVxxC" title="YouTube video player" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
 </div>
-<div class="d-flex justify-content-center py-2">
-        <img src="{% static "image/wgif.gif" %}"  style="width: 80%; height: 250px" alt="" >
-      </div>
 
-
-
+<!-- Bottom Banner -->
+<div class="container-fluid my-4">
+  <div class="d-flex justify-content-center">
+    <img src="{% static 'image/wgif.gif' %}" class="img-fluid rounded" alt="Wide Banner">
+  </div>
+</div>
 {% endblock %}
