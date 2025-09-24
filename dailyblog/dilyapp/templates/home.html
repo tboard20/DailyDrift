@@ -28,7 +28,7 @@
           {% if story.image %}
             <img class="img-fluid rounded mb-2" src="{{ story.image.url }}" alt="{{ story.title }}">
           {% endif %}
-          <div class="p-3" style="background-color:#cacaca">
+          <div class="p-3" style="background-color:#c1bfff;">
             <a href="{% url 'article_details' story.slug %}" style=" color: #000000; text-decoration: none;">
               <h2 class="h5">{{ story.title|truncatewords:"9" }}</h2>
             </a>
@@ -68,7 +68,7 @@
         {% endif %}
 
               <div class="col-12 col-sm-6 col-md-3">
-                <div class="card h-100" style="background-color: #f4f4f4">
+                <div class="card h-100" style="background-color:#c8c6fe;">
                   <img src="{{ story.image.url }}" class="card-img-top" style="height:150px; object-fit:cover;" alt="{{ story.title }}">
                   <div class="card-body">
                     <a href="{% url 'article_details' story.slug %}" style=" text-decoration: none;">
